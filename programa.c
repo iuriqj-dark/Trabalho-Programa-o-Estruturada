@@ -10,11 +10,14 @@
 int menu_inicio();
 int menu_jogo();
 void limpa_buffer();
+void imprime_plano(int pontos_x[], int pontos_y[], int qtd_pontos);
 
 //main
 int main(){
     int op1,op2,score_pontos=0;
     char resposta[30]={'\0'};
+    //variaveis para plano
+    
 //loop do jogo
     do{
         op1=menu_inicio();
@@ -118,8 +121,17 @@ int menu_inicio(){
 //menu de intereção do usuário com o jogo
 int menu_jogo(){
     int opcao;
+    int x[] = {-4,-3,-2,-1,0};
+    int y[] = {-4,-3,-2,-1,0};
+    int qtd = 5;
+
     //fazer um if aqui ou na função de impressão para só imprimir ou receber novos valores para o gráfico após o usuário acertar 
     //impressao_plano_carteciano(...); chamada das funções de formação e impressão do plano cartesiano
+
+    printf("\nPrint da reta\n");
+    imprime_plano(x,y,qtd);
+    printf("\n");
+
     printf("\nQual das alternativas abaixo representa o plano ilustrado?");
     printf("\n1 - Linear");
     printf("\n2 - Quadratica");
@@ -131,5 +143,67 @@ int menu_jogo(){
     return opcao;
 }
 
+//funcao do plano cartesiano
+    
+//recebe como parametro um vetor para valores de x e um para valores de y, no qual x[i] e y[i] formará um dos pontos no plano.
 
+void imprime_plano(int pontos_x[], int pontos_y[], int qtd_pontos) //assinatura da funcao com 3 parametros, vetores de x e y com tamanho n
+{
+    int l, c, i, x = 0, y = 0, eh_igual_ponto;
 
+    for (l = 0; l < 15; l++)
+    {
+        for (c = 0; c < 15; c++)
+        {
+            x = c - 7;          //centralizacao da matriz tornando o centro dela em (0,0)
+            y = 7 - l;              
+
+            eh_igual_ponto = 0;     // inicializa variavel, neste caso é falso
+            for (i = 0; i < qtd_pontos; i++)
+            {
+                if (pontos_x[i] == x && pontos_y[i] == y)
+                {
+                    eh_igual_ponto = 1;     // altera o valor para 1
+                    i = qtd_pontos;                  // encerra o loop, pois o ponto ja foi encontrado
+                }
+            }
+            if (eh_igual_ponto)             // valor é igual a um, entao condicao eh verdadeira
+            {
+                printf(" * ");              // teste prioridade, caso nao for este testa os outros
+            }
+            else if (l == 7 && c == 7)
+            {
+                printf(" + ");
+            }
+            else if (l == 7 && c == 0)
+            {
+                printf("<--");
+            }
+            else if (l == 7 && c == 14)
+            {
+                printf("-->");
+            }
+            else if (l == 0 && c == 7)
+            {
+                printf(" ^ ");
+            }
+            else if (l == 14 && c == 7)
+            {
+                printf(" v ");
+            }
+            else if (l == 7)
+            {
+                printf("---");
+            }
+            else if (c == 7)
+            {
+                printf(" | ");
+            }
+            else
+            {
+                printf(" . ");
+            }
+        }
+        printf("\n");
+    }
+}
